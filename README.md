@@ -45,3 +45,13 @@ The application also calculates a code quality score and categorizes findings by
 - Dashboard analytics
 - Code quality scoring
 - Visual issue distribution charts
+
+## Version 4 Features
+
+- Downloadable Code Review Report
+- Automatic report generation
+- Report includes:
+  - Code Quality Score
+  - Detected Issues
+  - Severity Levels
+- Export review results as TXT file
