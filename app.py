@@ -71,18 +71,35 @@ if uploaded_file:
     with col3:
         st.metric("🟢 Low Issues", low_count)
 
-    st.subheader("🔍 Code Review")
+        st.subheader("🔍 Code Review")
 
     if len(issues) == 0:
         st.success("No obvious issues detected.")
+
     else:
+
         for severity, issue in issues:
 
             if severity == "High":
+
                 st.error(f"{severity}: {issue}")
 
+                st.write(
+                    "💡 Recommendation: Store passwords in environment variables instead of source code."
+                )
+
             elif severity == "Medium":
+
                 st.warning(f"{severity}: {issue}")
 
+                st.write(
+                    "💡 Recommendation: Validate and sanitize user input before processing."
+                )
+
             else:
+
                 st.info(f"{severity}: {issue}")
+
+                st.write(
+                    "💡 Recommendation: Use logging instead of print statements in production."
+                )
