@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.title("🤖 AI Code Review Assistant")
 
@@ -45,6 +46,17 @@ if uploaded_file:
     high_count = sum(1 for s, i in issues if s == "High")
     medium_count = sum(1 for s, i in issues if s == "Medium")
     low_count = sum(1 for s, i in issues if s == "Low")
+
+    st.subheader("📈 Issue Distribution")
+
+    chart_data = pd.DataFrame(
+        {
+            "Issues": [high_count, medium_count, low_count]
+        },
+        index=["High", "Medium", "Low"]
+    )
+
+    st.bar_chart(chart_data)
 
     st.subheader("📊 Dashboard Summary")
 
