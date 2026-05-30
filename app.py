@@ -29,8 +29,28 @@ if uploaded_file:
         issues.append(("Low", "Print statements found"))
         score -= 10
 
+
     st.subheader("📊 Code Quality Score")
     st.metric("Score", f"{score}/100")
+    
+
+    # Dashboard Metrics
+    high_count = sum(1 for s, i in issues if s == "High")
+    medium_count = sum(1 for s, i in issues if s == "Medium")
+    low_count = sum(1 for s, i in issues if s == "Low")
+
+    st.subheader("📊 Dashboard Summary")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric("🔴 High Issues", high_count)
+
+    with col2:
+        st.metric("🟡 Medium Issues", medium_count)
+
+    with col3:
+        st.metric("🟢 Low Issues", low_count)
 
     st.subheader("🔍 Code Review")
 
