@@ -32,7 +32,14 @@ if uploaded_file:
 
     st.subheader("📊 Code Quality Score")
     st.metric("Score", f"{score}/100")
-    
+    st.progress(score / 100)
+
+    if score >= 80:
+        st.success("Excellent Code Quality")
+    elif score >= 60:
+        st.warning("Moderate Code Quality")
+    else:
+        st.error("Poor Code Quality")
 
     # Dashboard Metrics
     high_count = sum(1 for s, i in issues if s == "High")
