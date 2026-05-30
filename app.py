@@ -10,14 +10,17 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file:
 
+    # Read uploaded code
     code = uploaded_file.read().decode("utf-8")
 
-    st.subheader("Uploaded Code")
+    st.subheader("📄 Uploaded Code")
     st.code(code, language="python")
 
+    # Initialize variables
     issues = []
     score = 100
 
+    # Detect issues
     if "password =" in code:
         issues.append(("High", "Hardcoded password detected"))
         score -= 30
@@ -30,9 +33,34 @@ if uploaded_file:
         issues.append(("Low", "Print statements found"))
         score -= 10
 
+    # Generate report
+    report = f"""
+AI CODE REVIEW REPORT
 
+Score: {score}/100
+
+Issues Found:
+-------------------------
+"""
+
+    if len(issues) == 0:
+        report += "No issues detected.\n"
+    else:
+        for severity, issue in issues:
+            report += f"{severity} - {issue}\n"
+
+    # Download button
+    st.download_button(
+        label="📥 Download Review Report",
+        data=report,
+        file_name="code_review_report.txt",
+        mime="text/plain"
+    )
+
+    # Code Quality Score
     st.subheader("📊 Code Quality Score")
     st.metric("Score", f"{score}/100")
+
     st.progress(score / 100)
 
     if score >= 80:
@@ -47,6 +75,7 @@ if uploaded_file:
     medium_count = sum(1 for s, i in issues if s == "Medium")
     low_count = sum(1 for s, i in issues if s == "Low")
 
+    # Chart
     st.subheader("📈 Issue Distribution")
 
     chart_data = pd.DataFrame(
@@ -58,6 +87,7 @@ if uploaded_file:
 
     st.bar_chart(chart_data)
 
+    # Dashboard Summary
     st.subheader("📊 Dashboard Summary")
 
     col1, col2, col3 = st.columns(3)
@@ -71,7 +101,8 @@ if uploaded_file:
     with col3:
         st.metric("🟢 Low Issues", low_count)
 
-        st.subheader("🔍 Code Review")
+    # Code Review
+    st.subheader("🔍 Code Review")
 
     if len(issues) == 0:
         st.success("No obvious issues detected.")
