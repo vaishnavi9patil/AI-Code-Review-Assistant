@@ -133,6 +133,20 @@ Issues Found:
     medium_count = sum(1 for s, i in issues if s == "Medium")
     low_count = sum(1 for s, i in issues if s == "Low")
 
+    total_issues = len(issues)
+
+    highest_severity = "None"
+
+    if high_count > 0:
+        highest_severity = "High"
+
+    elif medium_count > 0:
+        highest_severity = "Medium"
+
+    elif low_count > 0:
+        highest_severity = "Low"
+
+
     # Chart
     st.subheader("📈 Issue Distribution")
 
@@ -148,25 +162,43 @@ Issues Found:
     # Summary
     st.subheader("📊 Dashboard Summary")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        st.metric("🔴 High Issues", high_count)
+        st.metric("🔴 High", high_count)
 
     with col2:
-        st.metric("🟡 Medium Issues", medium_count)
+        st.metric("🟡 Medium", medium_count)
 
     with col3:
-        st.metric("🟢 Low Issues", low_count)
+        st.metric("🟢 Low", low_count)
+
+    with col4:
+        st.metric("📌 Total", total_issues)
+
+    with col5:
+        st.metric("⚠ Highest", highest_severity)
+
+
+    st.subheader("📋 Analysis Summary")
+
+    summary_text = f"""
+    📌 Total Issues Found: {total_issues}
+
+     ⚠ Highest Severity: {highest_severity}
+
+     This code contains security, quality, and maintainability concerns.
+     Review all detected issues before deploying to production.
+     """
+
+    st.info(summary_text)
 
     # Code Review
     st.subheader("🔍 Code Review")
 
     if len(issues) == 0:
         st.success("No obvious issues detected.")
-
     else:
-
         for severity, issue in issues:
 
             if severity == "High":
