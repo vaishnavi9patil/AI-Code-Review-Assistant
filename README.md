@@ -124,3 +124,24 @@ The AI Code Review Assistant now provides a professional dashboard with detailed
 
 Users can now visualize issue severity distribution through both bar charts and pie charts, making the dashboard more interactive and professional.
 
+## Version 9 - Code Statistics Dashboard
+
+### New Features Added
+
+- Total Lines of Code
+- Function Count
+- Import Count
+- Comment Count
+- Class Count
+- Comment Percentage
+
+### Benefits
+
+- Provides quick insights into code structure
+- Improves maintainability analysis
+- Gives users a better understanding of code composition
+
+### Outcome
+
+The AI Code Review Assistant now performs both issue detection and code statistics analysis, making it closer to a professional static code analysis tool.
+

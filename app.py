@@ -25,6 +25,41 @@ if uploaded_file:
 
     # Analyze code line by line
     lines = code.split("\n")
+    # Code Statistics
+
+    total_lines = len(lines)
+
+    function_count = sum(
+        1 for line in lines
+        if line.strip().startswith("def ")
+    )
+
+    import_count = sum(
+        1 for line in lines
+        if line.strip().startswith("import ")
+        or line.strip().startswith("from ")
+    )
+
+    comment_count = sum(
+        1 for line in lines
+        if line.strip().startswith("#")
+    )
+    class_count = sum(
+    1 for line in lines
+    if line.strip().startswith("class ")
+    )
+
+    blank_lines = sum(
+        1 for line in lines
+        if line.strip() == ""
+    )
+
+    comment_ratio = round(
+        (comment_count / total_lines) * 100,
+        1
+    )
+
+
 
     for line_number, line in enumerate(lines, start=1):
 
@@ -186,6 +221,29 @@ Issues Found:
 
     st.pyplot(fig)
 
+    
+    st.subheader("📊 Code Statistics")
+
+    s1, s2, s3, s4, s5, s6 = st.columns(6)
+
+    with s1:
+        st.metric("📄 Lines", total_lines)
+
+    with s2:
+        st.metric("🔧 Functions", function_count)
+
+    with s3:
+        st.metric("📦 Imports", import_count)
+
+    with s4:
+        st.metric("💬 Comments", comment_count)
+
+    with s5:
+        st.metric("🏛 Classes", class_count)
+
+    with s6:
+        st.metric("📏 Comment %", f"{comment_ratio}%")
+    
     # Summary
     st.subheader("📊 Dashboard Summary")
 
