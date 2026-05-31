@@ -6,15 +6,29 @@ st.set_page_config(page_title="AI Code Review Assistant", layout="wide")
 
 st.title("🤖 AI Code Review Assistant")
 
-uploaded_file = st.file_uploader(
-    "Upload a Python file",
-    type=["py"]
+uploaded_files = st.file_uploader(
+    "Upload a Python files",
+    type=["py"],
+    accept_multiple_files=True
 )
 
-if uploaded_file:
+if uploaded_files:
 
-    # Read uploaded code
-    code = uploaded_file.read().decode("utf-8")
+    issues = []
+    score = 100
+
+    total_lines = 0
+    function_count = 0
+    import_count = 0
+    comment_count = 0
+    class_count = 0
+
+    for uploaded_file in uploaded_files:
+        code = uploaded_file.read().decode("utf-8")
+
+        st.subheader(f"📄 {uploaded_file.name}")
+
+        st.code(code, language="python")
 
     st.subheader("📄 Uploaded Code")
     st.code(code, language="python")
@@ -27,24 +41,24 @@ if uploaded_file:
     lines = code.split("\n")
     # Code Statistics
 
-    total_lines = len(lines)
+    total_lines += len(lines)
 
-    function_count = sum(
+    function_count += sum(
         1 for line in lines
         if line.strip().startswith("def ")
     )
 
-    import_count = sum(
+    import_count += sum(
         1 for line in lines
         if line.strip().startswith("import ")
         or line.strip().startswith("from ")
     )
 
-    comment_count = sum(
+    comment_count += sum(
         1 for line in lines
         if line.strip().startswith("#")
     )
-    class_count = sum(
+    class_count += sum(
     1 for line in lines
     if line.strip().startswith("class ")
     )
@@ -54,10 +68,13 @@ if uploaded_file:
         if line.strip() == ""
     )
 
-    comment_ratio = round(
-        (comment_count / total_lines) * 100,
-        1
-    )
+    if total_lines > 0:
+        comment_ratio = round(
+            (comment_count / total_lines) * 100,
+            1
+        )
+    else:
+        comment_ratio = 0
 
 
 

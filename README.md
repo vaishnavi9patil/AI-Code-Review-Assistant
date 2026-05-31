@@ -145,3 +145,15 @@ Users can now visualize issue severity distribution through both bar charts and 
 
 The AI Code Review Assistant now performs both issue detection and code statistics analysis, making it closer to a professional static code analysis tool.
 
+### Version 10 – Multiple File Upload Support
+Objective
+
+Enhanced the AI Code Review Assistant to support uploading and reviewing multiple Python files simultaneously.
+
+Features Added
+Multiple .py file upload capability.
+Individual code preview for each uploaded file.
+Separate analysis for every uploaded file.
+Improved scalability for reviewing larger projects containing multiple source files.
+
+
