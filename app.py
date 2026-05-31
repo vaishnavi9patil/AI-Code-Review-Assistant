@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="AI Code Review Assistant", layout="wide")
 
@@ -158,6 +159,32 @@ Issues Found:
     )
 
     st.bar_chart(chart_data)
+
+    st.subheader("🥧 Issue Distribution Pie Chart")
+
+    labels = ["High", "Medium", "Low"]
+    sizes = [high_count, medium_count, low_count]
+
+# Remove categories with 0 issues
+    filtered_labels = []
+    filtered_sizes = []
+
+    for label, size in zip(labels, sizes):
+        if size > 0:
+            filtered_labels.append(label)
+            filtered_sizes.append(size)
+
+    fig, ax = plt.subplots()
+
+    ax.pie(
+        filtered_sizes,
+        labels=filtered_labels,
+        autopct="%1.1f%%"
+        )
+
+    ax.axis("equal")
+
+    st.pyplot(fig)
 
     # Summary
     st.subheader("📊 Dashboard Summary")

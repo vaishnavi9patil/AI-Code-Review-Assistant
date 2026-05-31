@@ -105,3 +105,22 @@ The assistant now performs deeper static code analysis and provides more accurat
 
 The AI Code Review Assistant now provides a professional dashboard with detailed security insights, issue categorization, severity analysis, and actionable recommendations.
 
+## Version 8 - Pie Chart Visualization
+
+### New Features Added
+
+- Pie Chart for Issue Distribution
+- Visual Severity Breakdown
+- Percentage-based Issue Analysis
+
+### Dashboard Improvements
+
+- Bar Chart Visualization
+- Pie Chart Visualization
+- Severity Metrics
+- Analysis Summary
+
+### Outcome
+
+Users can now visualize issue severity distribution through both bar charts and pie charts, making the dashboard more interactive and professional.
+
