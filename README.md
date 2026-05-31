@@ -55,3 +55,17 @@ The application also calculates a code quality score and categorizes findings by
   - Detected Issues
   - Severity Levels
 - Export review results as TXT file
+
+### Version 5 - Line Number Detection
+
+Enhancements:
+- Added line-by-line code scanning.
+- Detects the exact location of issues.
+- Displays line numbers for security and code quality findings.
+- Improves debugging and review experience.
+
+Example:
+High: Hardcoded password detected (Line 1)
+Medium: User input should be validated (Line 3)
+Low: Print statements found (Line 5)
+

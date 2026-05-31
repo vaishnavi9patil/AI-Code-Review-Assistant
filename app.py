@@ -21,17 +21,35 @@ if uploaded_file:
     score = 100
 
     # Detect issues
-    if "password =" in code:
-        issues.append(("High", "Hardcoded password detected"))
-        score -= 30
+    lines = code.split("\n")
 
-    if "input(" in code:
-        issues.append(("Medium", "User input should be validated"))
-        score -= 20
+    for line_number, line in enumerate(lines, start=1):
+        if "password =" in line:
+            issues.append(
+                (
+                    "High",
+                    f"Hardcoded password detected (Line {line_number})"
+                )
+            )
+            score -= 30
 
-    if "print(" in code:
-        issues.append(("Low", "Print statements found"))
-        score -= 10
+        if "input(" in line:
+            issues.append(
+                (
+                    "Medium",
+                    f"User input should be validated (Line {line_number})"
+                )
+            )
+            score -= 20
+
+        if "print(" in line:
+            issues.append(
+                (
+                    "Low",
+                    f"Print statements found (Line {line_number})"
+                )
+            )
+            score -= 10
 
     # Generate report
     report = f"""
