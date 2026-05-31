@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+st.set_page_config(page_title="AI Code Review Assistant", layout="wide")
+
 st.title("🤖 AI Code Review Assistant")
 
 uploaded_file = st.file_uploader(
@@ -20,10 +22,12 @@ if uploaded_file:
     issues = []
     score = 100
 
-    # Detect issues
+    # Analyze code line by line
     lines = code.split("\n")
 
     for line_number, line in enumerate(lines, start=1):
+
+        # Hardcoded password
         if "password =" in line:
             issues.append(
                 (
@@ -33,6 +37,7 @@ if uploaded_file:
             )
             score -= 30
 
+        # User input
         if "input(" in line:
             issues.append(
                 (
@@ -42,6 +47,7 @@ if uploaded_file:
             )
             score -= 20
 
+        # Print statements
         if "print(" in line:
             issues.append(
                 (
@@ -50,6 +56,39 @@ if uploaded_file:
                 )
             )
             score -= 10
+
+        # TODO comments
+        if "TODO" in line:
+            issues.append(
+                (
+                    "Low",
+                    f"TODO comment found (Line {line_number})"
+                )
+            )
+            score -= 5
+
+        # Wildcard imports
+        if "import *" in line:
+            issues.append(
+                (
+                    "Medium",
+                    f"Wildcard import detected (Line {line_number})"
+                )
+            )
+            score -= 15
+
+        # Empty exception handling
+        if "except:" in line:
+            issues.append(
+                (
+                    "High",
+                    f"Empty exception handling detected (Line {line_number})"
+                )
+            )
+            score -= 25
+
+    # Prevent negative score
+    score = max(score, 0)
 
     # Generate report
     report = f"""
@@ -67,7 +106,7 @@ Issues Found:
         for severity, issue in issues:
             report += f"{severity} - {issue}\n"
 
-    # Download button
+    # Download Report Button
     st.download_button(
         label="📥 Download Review Report",
         data=report,
@@ -75,8 +114,9 @@ Issues Found:
         mime="text/plain"
     )
 
-    # Code Quality Score
+    # Score Section
     st.subheader("📊 Code Quality Score")
+
     st.metric("Score", f"{score}/100")
 
     st.progress(score / 100)
@@ -105,7 +145,7 @@ Issues Found:
 
     st.bar_chart(chart_data)
 
-    # Dashboard Summary
+    # Summary
     st.subheader("📊 Dashboard Summary")
 
     col1, col2, col3 = st.columns(3)
@@ -133,22 +173,40 @@ Issues Found:
 
                 st.error(f"{severity}: {issue}")
 
-                st.write(
-                    "💡 Recommendation: Store passwords in environment variables instead of source code."
-                )
+                if "password" in issue.lower():
+                    st.write(
+                        "💡 Recommendation: Store passwords in environment variables instead of source code."
+                    )
+
+                elif "exception" in issue.lower():
+                    st.write(
+                        "💡 Recommendation: Handle exceptions explicitly and log errors."
+                    )
 
             elif severity == "Medium":
 
                 st.warning(f"{severity}: {issue}")
 
-                st.write(
-                    "💡 Recommendation: Validate and sanitize user input before processing."
-                )
+                if "input" in issue.lower():
+                    st.write(
+                        "💡 Recommendation: Validate and sanitize user input before processing."
+                    )
+
+                elif "import" in issue.lower():
+                    st.write(
+                        "💡 Recommendation: Avoid wildcard imports. Import only required modules."
+                    )
 
             else:
 
                 st.info(f"{severity}: {issue}")
 
-                st.write(
-                    "💡 Recommendation: Use logging instead of print statements in production."
-                )
+                if "todo" in issue.lower():
+                    st.write(
+                        "💡 Recommendation: Complete or remove TODO comments before production release."
+                    )
+
+                elif "print" in issue.lower():
+                    st.write(
+                        "💡 Recommendation: Use logging instead of print statements in production."
+                    )

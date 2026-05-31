@@ -69,3 +69,17 @@ High: Hardcoded password detected (Line 1)
 Medium: User input should be validated (Line 3)
 Low: Print statements found (Line 5)
 
+## Version 6 - Advanced Static Analysis
+
+### New Features Added
+- Line number detection for issues
+- TODO comment detection
+- Wildcard import detection (`import *`)
+- Empty exception handling detection (`except:`)
+- Dynamic recommendations based on issue type
+- Score floor protection (cannot go below 0)
+- Improved code review report generation
+
+### Result
+The assistant now performs deeper static code analysis and provides more accurate issue reporting with exact line references.
+
