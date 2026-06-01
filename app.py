@@ -484,10 +484,26 @@ Issues Found:
     # Code Review
     st.subheader("🔍 Code Review")
 
+    severity_filter = st.selectbox(
+        "Filter Issues",
+        ["All", "High", "Medium", "Low"]
+    )
+
     if len(issues) == 0:
         st.success("No obvious issues detected.")
+
     else:
-        for severity, issue in issues:
+        if severity_filter == "All":
+            filtered_issues = issues
+            
+        else:
+            filtered_issues = [
+                issue
+                for issue in issues
+                if issue[0] == severity_filter
+            ]
+
+        for severity, issue in filtered_issues:
 
             if severity == "High":
 
@@ -504,7 +520,6 @@ Issues Found:
                     )
 
             elif severity == "Medium":
-
                 st.warning(f"{severity}: {issue}")
 
                 if "input" in issue.lower():

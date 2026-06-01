@@ -219,3 +219,22 @@ Benefits:
 - Helps identify maintainability concerns.
 - Assists developers in understanding code complexity.
 - Enhances project professionalism through advanced metrics.
+
+### Version 14 – Issue Severity Filtering
+
+Enhancements Added:
+
+- Added severity-based filtering for detected issues.
+- Users can filter findings by:
+- High Severity
+- Medium Severity
+- Low Severity
+All Issues
+- Dynamic issue display updates based on selected severity.
+- Recommendations remain visible for filtered findings.
+
+Benefits:
+
+- Improves dashboard usability.
+- Helps users focus on critical issues first.
+- Makes large reports easier to analyze.
