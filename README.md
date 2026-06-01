@@ -151,9 +151,26 @@ Objective
 Enhanced the AI Code Review Assistant to support uploading and reviewing multiple Python files simultaneously.
 
 Features Added
-Multiple .py file upload capability.
-Individual code preview for each uploaded file.
-Separate analysis for every uploaded file.
-Improved scalability for reviewing larger projects containing multiple source files.
+- Multiple .py file upload capability.
+- Individual code preview for each uploaded file.
+- Separate analysis for every uploaded file.
+- Improved scalability for reviewing larger projects containing multiple source files.
 
+
+### Version 11 – AI Review Summary Engine
+Objective
+
+Introduced an AI-style review engine that generates an overall assessment of uploaded code based on detected issues.
+
+Features Added
+- AI-generated review summary
+- Severity-based recommendations
+- Automated deployment readiness assessment
+- Security-focused feedback
+
+Benefits
+- Makes the application feel AI-driven
+- Provides actionable feedback
+- Improves user understanding of code quality
+- Simulates professional code review reports
 

@@ -295,6 +295,41 @@ Issues Found:
 
     st.info(summary_text)
 
+
+    st.subheader("🤖 AI Review Summary")
+
+    if high_count >= 2:
+        ai_summary = """
+    This code contains serious security concerns.
+
+    Critical issues such as hardcoded credentials and improper exception handling were detected.
+
+    The code should not be deployed until these issues are resolved.
+    """
+    elif high_count >= 1:
+        ai_summary = """
+    This code contains important security and maintainability issues.
+
+    Several improvements are recommended before production deployment.
+    """
+    elif medium_count >= 2:
+        ai_summary = """
+    This code has moderate quality concerns.
+
+    Input validation, imports, and code structure should be improved.
+    """
+    else:
+        ai_summary = """
+    The code quality appears acceptable.
+
+    Only minor improvements are recommended.
+    """
+
+    st.info(ai_summary)
+
+
+
+
     # Code Review
     st.subheader("🔍 Code Review")
 
