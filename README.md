@@ -174,3 +174,25 @@ Benefits
 - Improves user understanding of code quality
 - Simulates professional code review reports
 
+### Version 12 – PDF Report Generation
+
+Objective:
+Implemented PDF report generation functionality to allow users to download a professional code review report.
+
+Features Added:
+
+- Generated downloadable PDF reports using ReportLab.
+- Included Code Quality Score in the report.
+- Included detected issues with severity levels.
+- Added AI-generated review summary.
+- Displayed number of files analyzed.
+- Preserved proper formatting and headings in the PDF document.
+- Ensured issue line numbers match the original uploaded source file.
+
+Benefits:
+
+- Allows users to save review results.
+- Makes the application suitable for professional documentation.
+- Improves usability by providing portable reports.
+- Enhances project presentation quality for GitHub and portfolios.
+

@@ -1,6 +1,84 @@
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from io import BytesIO
+
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+
+
+def generate_pdf(score, issues, ai_summary, file_count):
+
+    buffer = BytesIO()
+
+    doc = SimpleDocTemplate(buffer)
+
+    styles = getSampleStyleSheet()
+
+    content = []
+
+    content.append(
+        Paragraph(
+            "AI CODE REVIEW REPORT",
+            styles["Title"]
+        )
+    )
+
+    content.append(Spacer(1, 12))
+
+    content.append(
+        Paragraph(
+            f"Score: {score}/100",
+            styles["Heading2"]
+        )
+    )
+    content.append(
+        Paragraph(
+            f"Files Analyzed: {file_count}",
+            styles["BodyText"]
+        )
+    )
+    content.append(Spacer(1, 12))
+
+    content.append(
+        Paragraph(
+            "Detected Issues",
+            styles["Heading2"]
+        )
+    )
+
+    for severity, issue in issues:
+        content.append(
+            Paragraph(
+                f"{severity}: {issue}",
+                styles["BodyText"]
+            )
+        )
+
+    content.append(Spacer(1, 12))
+
+    content.append(
+        Paragraph(
+            "AI Review Summary",
+            styles["Heading2"]
+        )
+    )
+
+    content.append(
+        Paragraph(
+            ai_summary,
+            styles["BodyText"]
+        )
+    )
+
+    doc.build(content)
+
+    pdf = buffer.getvalue()
+
+    buffer.close()
+
+    return pdf
 
 st.set_page_config(page_title="AI Code Review Assistant", layout="wide")
 
@@ -17,6 +95,8 @@ if uploaded_files:
     issues = []
     score = 100
 
+    all_code = ""
+
     total_lines = 0
     function_count = 0
     import_count = 0
@@ -25,14 +105,14 @@ if uploaded_files:
 
     for uploaded_file in uploaded_files:
         code = uploaded_file.read().decode("utf-8")
+        lines = code.split("\n")
 
         st.subheader(f"📄 {uploaded_file.name}")
 
         st.code(code, language="python")
 
-    st.subheader("📄 Uploaded Code")
-    st.code(code, language="python")
-
+    
+    
     # Initialize variables
     issues = []
     score = 100
@@ -85,7 +165,7 @@ if uploaded_files:
             issues.append(
                 (
                     "High",
-                    f"Hardcoded password detected (Line {line_number})"
+                    f"{uploaded_file.name}: Hardcoded password detected (Line {line_number})"
                 )
             )
             score -= 30
@@ -148,6 +228,7 @@ if uploaded_files:
 AI CODE REVIEW REPORT
 
 Score: {score}/100
+Files Analyzed: {len(uploaded_files)}
 
 Issues Found:
 -------------------------
@@ -166,6 +247,8 @@ Issues Found:
         file_name="code_review_report.txt",
         mime="text/plain"
     )
+    
+
 
     # Score Section
     st.subheader("📊 Code Quality Score")
@@ -287,11 +370,13 @@ Issues Found:
     summary_text = f"""
     📌 Total Issues Found: {total_issues}
 
-     ⚠ Highest Severity: {highest_severity}
+    ⚠ Highest Severity: {highest_severity}
 
-     This code contains security, quality, and maintainability concerns.
-     Review all detected issues before deploying to production.
-     """
+    📊 Code Score: {score}/100
+
+    Security, quality and maintainability issues were detected.
+    Review all findings before production deployment.
+    """
 
     st.info(summary_text)
 
@@ -327,8 +412,21 @@ Issues Found:
 
     st.info(ai_summary)
 
+    # PDF Generation
+    pdf_file = generate_pdf(
+        score,
+        issues,
+        ai_summary,
+        len(uploaded_files)
+    )
 
-
+    # PDF Download Button
+    st.download_button(
+        label="📄 Download PDF Report",
+        data=pdf_file,
+        file_name="AI_Code_Review_Report.pdf",
+        mime="application/pdf"
+    )
 
     # Code Review
     st.subheader("🔍 Code Review")
