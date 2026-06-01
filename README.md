@@ -196,3 +196,26 @@ Benefits:
 - Improves usability by providing portable reports.
 - Enhances project presentation quality for GitHub and portfolios.
 
+### Version 13 – Code Complexity & Statistics Analysis
+
+Enhancements Added:
+
+- Implemented advanced code statistics analysis.
+- Added total line count calculation.
+- Added function count detection.
+- Added import statement count detection.
+- Added comment count detection.
+- Added class count detection.
+- Added comment percentage calculation.
+- Added complexity analysis section.
+- Added nested loop detection.
+- Added long function detection.
+- Added large file detection.
+- Added complexity score classification (Low / Medium / High).
+
+Benefits:
+
+- Provides deeper insights into code structure.
+- Helps identify maintainability concerns.
+- Assists developers in understanding code complexity.
+- Enhances project professionalism through advanced metrics.

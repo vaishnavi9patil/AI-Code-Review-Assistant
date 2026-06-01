@@ -102,6 +102,9 @@ if uploaded_files:
     import_count = 0
     comment_count = 0
     class_count = 0
+    long_function_count = 0
+    nested_loop_count = 0
+    large_file_count = 0
 
     for uploaded_file in uploaded_files:
         code = uploaded_file.read().decode("utf-8")
@@ -113,15 +116,12 @@ if uploaded_files:
 
     
     
-    # Initialize variables
-    issues = []
-    score = 100
-
-    # Analyze code line by line
-    lines = code.split("\n")
+  
     # Code Statistics
 
     total_lines += len(lines)
+    if len(lines) > 100:
+        large_file_count += 1
 
     function_count += sum(
         1 for line in lines
@@ -159,6 +159,12 @@ if uploaded_files:
 
 
     for line_number, line in enumerate(lines, start=1):
+        for i in range(len(lines) - 1):
+            if (
+                lines[i].strip().startswith("for ")
+                and lines[i + 1].startswith("    for ")
+            ):
+                nested_loop_count += 1
 
         # Hardcoded password
         if "password =" in line:
@@ -282,6 +288,13 @@ Issues Found:
     elif low_count > 0:
         highest_severity = "Low"
 
+    complexity_score = "Low"
+
+    if long_function_count >= 2 or nested_loop_count >= 2:
+        complexity_score = "High"
+
+    elif long_function_count >= 1 or nested_loop_count >= 1:
+        complexity_score = "Medium"
 
     # Chart
     st.subheader("📈 Issue Distribution")
@@ -344,6 +357,46 @@ Issues Found:
     with s6:
         st.metric("📏 Comment %", f"{comment_ratio}%")
     
+    current_function_lines = 0
+
+    inside_function = False
+
+    for line in lines:
+
+        if line.strip().startswith("def "):
+            inside_function = True
+            current_function_lines = 1
+
+        elif inside_function:
+
+            if line.startswith("    "):
+                current_function_lines += 1
+
+        else:
+
+            if current_function_lines > 20:
+                long_function_count += 1
+
+            inside_function = False
+    
+
+    st.subheader("🧠 Complexity Analysis")
+
+    c1, c2, c3, c4 = st.columns(4)
+
+    with c1:
+        st.metric("📈 Complexity", complexity_score)
+
+    with c2:
+        st.metric("🔧 Long Functions", long_function_count)
+
+    with c3:
+        st.metric("🔄 Nested Loops", nested_loop_count)
+
+    with c4:
+        st.metric("📄 Large Files", large_file_count)
+
+
     # Summary
     st.subheader("📊 Dashboard Summary")
 
