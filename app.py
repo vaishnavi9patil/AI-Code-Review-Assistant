@@ -489,19 +489,59 @@ Issues Found:
         ["All", "High", "Medium", "Low"]
     )
 
-    if len(issues) == 0:
-        st.success("No obvious issues detected.")
+    search_text = st.text_input(
+        "🔎 Search Issues",
+        placeholder="Type keyword (password, input, import...)"
+    )
+    sort_option = st.selectbox(
+        "↕ Sort Issues",
+        [
+            "High → Low",
+            "Low → High"
+        ]
+    )
+
+    severity_order = {
+        "High": 3,
+        "Medium": 2,
+        "Low": 1
+    }
+
+    # Apply Severity Filter
+    if severity_filter == "All":
+        filtered_issues = issues.copy()
+    else:
+        filtered_issues = [
+            issue
+            for issue in issues
+            if issue[0] == severity_filter
+        ]
+
+    # Apply Search Filter
+    if search_text.strip():
+        filtered_issues = [
+            issue
+            for issue in filtered_issues
+            if search_text.lower() in issue[1].lower()
+        ]
+
+    # Apply Sorting
+    if sort_option == "High → Low":
+        filtered_issues.sort(
+            key=lambda x: severity_order[x[0]],
+            reverse=True
+        )
+    else:
+        filtered_issues.sort(
+            key=lambda x: severity_order[x[0]]
+        )
+
+    # Display Results
+    if len(filtered_issues) == 0:
+
+        st.warning("No matching issues found.")
 
     else:
-        if severity_filter == "All":
-            filtered_issues = issues
-            
-        else:
-            filtered_issues = [
-                issue
-                for issue in issues
-                if issue[0] == severity_filter
-            ]
 
         for severity, issue in filtered_issues:
 
@@ -520,6 +560,7 @@ Issues Found:
                     )
 
             elif severity == "Medium":
+
                 st.warning(f"{severity}: {issue}")
 
                 if "input" in issue.lower():

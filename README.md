@@ -238,3 +238,58 @@ Benefits:
 - Improves dashboard usability.
 - Helps users focus on critical issues first.
 - Makes large reports easier to analyze.
+
+
+### Version 15 – Search, Filter & Sort Issues
+
+## Objective
+
+Enhanced the AI Code Review Assistant by introducing advanced issue management features, allowing users to quickly locate and prioritize findings.
+
+## Features Added
+
+### Issue Severity Filter
+
+* Added filtering options for:
+
+  * All Issues
+  * High Severity Issues
+  * Medium Severity Issues
+  * Low Severity Issues
+
+### Search Functionality
+
+* Added keyword-based search for detected issues.
+* Users can search for specific findings such as:
+
+  * password
+  * import
+  * input
+  * print
+  * TODO
+
+### Issue Sorting
+
+* Added severity-based sorting:
+
+  * High → Low
+  * Low → High
+
+### Enhanced User Experience
+
+* Improved navigation through findings.
+* Reduced manual scrolling for large reports.
+* Enabled focused analysis of critical issues.
+
+## Benefits
+
+* Faster identification of important security issues.
+* Improved dashboard usability.
+* Better prioritization of code review findings.
+* Simulates functionality available in professional static code analysis tools.
+
+## Result
+
+Successfully implemented issue filtering, searching, and sorting capabilities, making the AI Code Review Assistant more interactive and user-friendly.
+
+
